@@ -26,7 +26,7 @@ export default function Header({ setCursorState }: HeaderProps) {
           onMouseEnter={() => handleHover(true)}
           onMouseLeave={() => handleHover(false)}
         >
-          <Wordmark className="h-7 md:h-8" />
+          <Wordmark className="h-9 md:h-11" />
         </a>
 
         {/* CTA de contacto */}

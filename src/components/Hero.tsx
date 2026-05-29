@@ -177,7 +177,7 @@ export default function Hero({ setCursorState }: HeroProps) {
         </div>
 
         {/* Texto decorativo */}
-        <div className="text-[10px] font-mono tracking-widest text-hueso/20 uppercase hidden sm:block">
+        <div className="text-xs md:text-sm font-mono tracking-[0.25em] text-hueso/50 uppercase hidden sm:block">
           arequipa • perú
         </div>
 

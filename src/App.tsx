@@ -75,7 +75,7 @@ export default function App() {
 
           {/* Columna del wordmark + tagline */}
           <div className="col-span-12 md:col-span-6 space-y-4">
-            <Wordmark className="h-7" />
+            <Wordmark className="h-8 md:h-9" />
             <p className="text-zinc-400 text-xs font-light max-w-sm leading-relaxed">
               Distribuidora de ladrillo en Arequipa. Juntamos a tu comunidad para comprar a precio de
               millar y atendemos a contratistas como distribuidor de Ladrillera Oro Rojo.

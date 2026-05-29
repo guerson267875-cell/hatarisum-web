@@ -94,7 +94,7 @@ export default function Collective({ setCursorState }: CollectiveProps) {
               </span>
             </div>
             <p className="font-mono text-[8px] text-zinc-500 tracking-widest uppercase">
-              PASA EL CURSOR POR LAS ZONAS PARA VER LAS RUTAS
+              TOCA O PASA EL CURSOR POR LAS ZONAS PARA VER LAS RUTAS
             </p>
           </div>
 
@@ -157,7 +157,7 @@ export default function Collective({ setCursorState }: CollectiveProps) {
                         isSel ? 'bg-[#D4593A]' : 'bg-white/40 group-hover/pin:bg-white'
                       }`} />
                     </div>
-                    <span className="absolute left-10 top-1/2 -translate-y-1/2 font-mono text-[9px] font-bold text-white tracking-widest uppercase bg-black/80 px-2 py-0.5 rounded border border-white/10 shadow-lg pointer-events-none whitespace-nowrap">
+                    <span className="hidden md:block absolute left-10 top-1/2 -translate-y-1/2 font-mono text-[9px] font-bold text-white tracking-widest uppercase bg-black/80 px-2 py-0.5 rounded border border-white/10 shadow-lg pointer-events-none whitespace-nowrap">
                       {z.name}
                     </span>
                   </div>

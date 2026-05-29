@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface WordmarkProps {
-  className?: string;   // controla la altura, ej. "h-7"
+  className?: string;   // controla el TAMAÑO vía font-size, ej. "text-2xl md:text-3xl"
   showTagline?: boolean;
 }
 
@@ -9,21 +9,27 @@ interface WordmarkProps {
  * Wordmark Hatarisum — anatomía de marca:
  * "Hatari" + columna de 5 ladrillos ascendente (3 tonos terracota alternados)
  * con cabeza-flecha triangular encima + "sum." + punto terracota.
- * Sobre fondo oscuro el texto va en hueso; los ladrillos mantienen terracota.
+ *
+ * El tamaño se controla con clases de font-size (text-xl, text-3xl, …) en `className`;
+ * las letras y la columna de ladrillos escalan en `em` respecto a ese tamaño.
  */
-export default function Wordmark({ className = 'h-8', showTagline = false }: WordmarkProps) {
+export default function Wordmark({ className = 'text-2xl', showTagline = false }: WordmarkProps) {
   return (
-    <span className={`inline-flex flex-col select-none ${className}`} role="img" aria-label="Hatarisum — Levantémonos juntos">
-      <span className="inline-flex items-end leading-none" style={{ height: '100%' }}>
-        <span className="font-display font-extrabold tracking-tight text-hueso" style={{ fontSize: '0.86em', lineHeight: 1 }}>
+    <span
+      className={`inline-flex flex-col leading-none select-none ${className}`}
+      role="img"
+      aria-label="Hatarisum — Levantémonos juntos"
+    >
+      <span className="inline-flex items-end leading-none">
+        <span className="font-display font-extrabold tracking-tight text-hueso" style={{ fontSize: '1em', lineHeight: 1 }}>
           Hatari
         </span>
 
         {/* Columna de ladrillos con cabeza-flecha (atraviesa el cap height) */}
         <svg
           viewBox="0 0 20 56"
-          className="w-auto mx-[0.04em]"
-          style={{ height: '1.32em', transform: 'translateY(-0.2em)' }}
+          className="w-auto mx-[0.05em]"
+          style={{ height: '1.5em', transform: 'translateY(-0.16em)' }}
           aria-hidden="true"
         >
           {/* Cabeza-flecha triangular */}
@@ -43,13 +49,13 @@ export default function Wordmark({ className = 'h-8', showTagline = false }: Wor
           ))}
         </svg>
 
-        <span className="font-display font-extrabold tracking-tight text-hueso" style={{ fontSize: '0.86em', lineHeight: 1 }}>
+        <span className="font-display font-extrabold tracking-tight text-hueso" style={{ fontSize: '1em', lineHeight: 1 }}>
           sum<span className="text-terracota">.</span>
         </span>
       </span>
 
       {showTagline && (
-        <span className="font-sans text-dorado/80 uppercase mt-1.5" style={{ fontSize: '0.26em', letterSpacing: '0.22em' }}>
+        <span className="font-sans text-dorado/80 uppercase mt-1.5" style={{ fontSize: '0.3em', letterSpacing: '0.22em' }}>
           Levantémonos juntos
         </span>
       )}

@@ -1,0 +1,6 @@
+{
+  "name": "Creative Agency Portfolio Replica",
+  "description": "Replicación de alta fidelidad del sitio web interactivo de monopo saigon, con animaciones fluidas y diseño de vanguardia.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

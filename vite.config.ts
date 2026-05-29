@@ -5,6 +5,9 @@ import {defineConfig} from 'vite';
 
 export default defineConfig(() => {
   return {
+    // Ruta relativa: funciona tanto en subpath (GitHub Pages /hatarisum-web/)
+    // como en la raíz (Vercel/Netlify/dominio propio).
+    base: './',
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {

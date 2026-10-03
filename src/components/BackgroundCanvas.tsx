@@ -274,6 +274,9 @@ export default function BackgroundCanvas() {
         </div>
       )}
 
+      {/* Velo oscuro: baja el brillo del fluido detrás del texto (más en celular) */}
+      <div className="absolute inset-0 bg-[#0A1322]/40 md:bg-[#0A1322]/15" />
+
       {/* 2. THE GRAND CELESTIAL GLOBE: Semi-transparent, backdrop-blurred planet at top-right with warm gold ambient bottom rim */}
       <div 
         id="aurora-celestial-sphere"

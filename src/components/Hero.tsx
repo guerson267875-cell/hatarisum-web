@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { CursorState } from '../types';
+import { waLink } from '../data/contacto';
+import { promoVigente } from '../data/productos';
 
 interface HeroProps {
   setCursorState: React.Dispatch<React.SetStateAction<CursorState>>;
@@ -8,6 +10,7 @@ interface HeroProps {
 
 export default function Hero({ setCursorState }: HeroProps) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const promo = promoVigente();
 
   const handleHover = (entering: boolean, text?: string) => {
     if (entering) {
@@ -19,30 +22,29 @@ export default function Hero({ setCursorState }: HeroProps) {
 
   // Titulares rotativos. La palabra entre {} se resalta en dorado.
   const phrases = [
+    'Tu casa, {de a pocos}',
+    'Precio de {fábrica}, sin intermediarios',
     'Levantémonos {juntos}',
-    'Tu casa, {ladrillo} a ladrillo',
-    'Precio de {millar} para tu barrio',
   ];
 
   const subs = [
-    'Juntamos a tu comunidad para que el ladrillo cueste lo justo.',
-    'Organizamos la junta vecinal; tú levantas tu pared.',
-    'Distribuidor de Ladrillera Oro Rojo en Arequipa.',
+    'Levántala por etapas con ladrillo de nuestra fábrica. Tú construyes a tu ritmo; nosotros ponemos el ladrillo.',
+    'Oro Rojo es nuestra fábrica. Recoge en planta o te lo llevamos a tu obra en Arequipa.',
+    'Hatarisum es quechua. Junta a tu cuadra y compren por millar.',
   ];
 
   const navItems = [
-    { label: 'CÓMO FUNCIONA', href: '#services' },
-    { label: 'PROPÓSITO', href: '#manifesto' },
-    { label: 'CATÁLOGO', href: '#catalogo' },
-    { label: 'COBERTURA', href: '#collective' },
+    { label: 'PRECIOS', href: '#precios' },
+    { label: 'CÓMO COMPRAR', href: '#como-comprar' },
+    { label: 'NUESTRA FÁBRICA', href: '#fabrica' },
     { label: 'CONTACTO', href: '#contact' },
   ];
 
-  // Auto-rotación cada 4.5s
+  // Auto-rotación cada 5.5s
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % phrases.length);
-    }, 4500);
+    }, 5500);
     return () => clearInterval(interval);
   }, [phrases.length]);
 
@@ -74,8 +76,8 @@ export default function Hero({ setCursorState }: HeroProps) {
       className="relative min-h-screen w-full flex flex-col justify-between pt-32 pb-16 px-6 md:px-12 select-none overflow-hidden"
     >
 
-      {/* Navegación vertical superior derecha */}
-      <div className="absolute top-[120px] right-[24px] md:right-[48px] text-right z-30 flex flex-col space-y-2.5">
+      {/* Navegación vertical superior derecha (solo en pantallas medianas en adelante) */}
+      <nav className="hidden md:flex absolute top-[120px] right-[48px] text-right z-30 flex-col space-y-2.5">
         {navItems.map((item, index) => (
           <a
             key={index}
@@ -87,57 +89,73 @@ export default function Hero({ setCursorState }: HeroProps) {
             {item.label}
           </a>
         ))}
-      </div>
+      </nav>
 
       {/* Tipografía principal con slider */}
-      <div className="flex-1 flex flex-col justify-center items-center text-center px-4">
-        <div className="min-h-[160px] sm:min-h-[220px] md:min-h-[280px] flex flex-col items-center justify-center w-full max-w-5xl">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeIndex}
-              initial={{ opacity: 0, y: 35 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -25 }}
-              transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
-              className="flex flex-col items-center"
-            >
-              <h1 className="text-[34px] sm:text-[50px] md:text-[70px] lg:text-[78px] font-display font-extrabold tracking-tight text-hueso leading-[1.08]">
-                {renderHighlighted(currentPhrase)}
-              </h1>
+      <div className="flex-1 flex flex-col justify-center items-center text-center px-1 sm:px-4">
+        <div className="flex flex-col items-center justify-center w-full max-w-5xl">
 
-              <motion.p
-                initial={{ opacity: 0, y: 10 }}
+          {/* Promo de apertura (desaparece sola el 1/11) */}
+          {promo && (
+            <motion.a
+              href="#precios"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.2 }}
+              onMouseEnter={() => handleHover(true, 'VER')}
+              onMouseLeave={() => handleHover(false)}
+              className="cursor-none mb-8 inline-flex flex-wrap items-center justify-center gap-x-2 gap-y-1 rounded-full border border-[#D4A24C]/40 bg-[#070E1A]/60 backdrop-blur-sm px-4 py-2 text-[11px] md:text-xs font-sans text-hueso/85"
+            >
+              <span className="font-mono text-[10px] tracking-[0.2em] uppercase text-[#D4A24C]">Promo de apertura</span>
+              <span>King Kong y Pandereta a <strong className="font-semibold text-white">S/ 1 el ladrillo</strong> en planta, hasta el 31/10</span>
+            </motion.a>
+          )}
+
+          <div className="min-h-[190px] sm:min-h-[230px] md:min-h-[290px] flex flex-col items-center justify-center w-full">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeIndex}
+                initial={{ opacity: 0, y: 35 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.3 }}
-                className="text-sm md:text-base font-sans font-light text-hueso/60 max-w-md mt-6 tracking-wide leading-relaxed"
+                exit={{ opacity: 0, y: -25 }}
+                transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+                className="flex flex-col items-center"
               >
-                {currentSub}
-              </motion.p>
-            </motion.div>
-          </AnimatePresence>
+                <h1 className="text-[36px] sm:text-[50px] md:text-[70px] lg:text-[78px] font-display font-extrabold tracking-tight text-hueso leading-[1.08]">
+                  {renderHighlighted(currentPhrase)}
+                </h1>
+
+                <p className="text-sm md:text-base font-sans font-light text-hueso/70 max-w-md mt-6 tracking-wide leading-relaxed">
+                  {currentSub}
+                </p>
+              </motion.div>
+            </AnimatePresence>
+          </div>
 
           {/* CTAs */}
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.5 }}
-            className="flex flex-col sm:flex-row items-center gap-3 mt-10"
+            className="flex flex-col sm:flex-row items-center gap-3 mt-8"
           >
             <a
-              href="#services"
-              onMouseEnter={() => handleHover(true, 'VER')}
+              href={waLink('Hola Hatarisum, quiero cotizar ladrillo.')}
+              target="_blank"
+              rel="noopener noreferrer"
+              onMouseEnter={() => handleHover(true, 'WHATSAPP')}
               onMouseLeave={() => handleHover(false)}
               className="cursor-none bg-[#B8442A] hover:bg-[#D4593A] text-white text-xs font-mono tracking-widest uppercase px-6 py-3.5 rounded-full transition-colors duration-200"
             >
-              Arma tu junta vecinal
+              Cotiza por WhatsApp
             </a>
             <a
-              href="#catalogo"
+              href="#precios"
               onMouseEnter={() => handleHover(true, 'VER')}
               onMouseLeave={() => handleHover(false)}
               className="cursor-none border border-white/15 hover:border-[#D4A24C] text-hueso/80 hover:text-white text-xs font-mono tracking-widest uppercase px-6 py-3.5 rounded-full transition-colors duration-200"
             >
-              Ver catálogo
+              Ver precios
             </a>
           </motion.div>
         </div>
@@ -177,7 +195,7 @@ export default function Hero({ setCursorState }: HeroProps) {
         </div>
 
         {/* Texto decorativo */}
-        <div className="text-xs md:text-sm font-mono tracking-[0.25em] text-hueso/50 uppercase hidden sm:block">
+        <div className="text-xs md:text-sm font-mono tracking-[0.25em] text-hueso/50 uppercase hidden sm:block mr-20 md:mr-24">
           arequipa • perú
         </div>
 

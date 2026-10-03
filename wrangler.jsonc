@@ -1,0 +1,8 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  // Web pública de Hatarisum en Cloudflare Pages: https://hatarisum.pages.dev
+  // Publicar: npm run desplegar
+  "name": "hatarisum",
+  "pages_build_output_dir": "./dist",
+  "compatibility_date": "2026-10-01"
+}

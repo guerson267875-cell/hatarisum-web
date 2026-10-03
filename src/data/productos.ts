@@ -1,173 +1,84 @@
-import { Producto, CategoriaProducto } from '../types';
+import { Producto } from '../types';
 
 // ============================================================
-// CATÁLOGO — Ladrillera Oro Rojo (datos reales, ver foto en
-// "Precios Ladrilleria Oro Rojo/"). Único punto de verdad del
-// catálogo. Estructura estilo ladrilloslark.pe/productos/:
-// pestañas por aplicación + grid de cards.
+// PRECIOS — único punto de verdad de la web.
+// Fuente: HATARISUM_Marketing_y_Distribucion/04_Conversion_y_Cierre/
+//   agente-whatsapp/configuracion-workspace-v4-planta-y-obra.md
+// (decisión de Guerson, 02/10/2026). Si cambian allá, cambiar aquí.
 //
-// NOTA: las imágenes son placeholders (gradiente). Reemplazar
-// `image` por <img src> cuando lleguen las fotos reales.
+// Precio por millar (1,000 ladrillos), en soles.
 // ============================================================
 
-export const categorias: { value: CategoriaProducto; label: string }[] = [
-  { value: 'muro', label: 'Ladrillos para Muro' },
-  { value: 'techo', label: 'Ladrillos para Techo' },
-  { value: 'tejas', label: 'Tejas' },
-  { value: 'pisos', label: 'Pisos / Pastelero' },
-];
+// La promo de apertura (S/ 1 el ladrillo, solo en planta) vence el 31/10/2026.
+// Desde el 1/11 la web muestra sola el precio de lista, igual que el agente.
+export const FIN_PROMO = new Date('2026-11-01T00:00:00-05:00');
+export const promoVigente = (hoy: Date = new Date()) => hoy < FIN_PROMO;
 
+export const precioEnPlanta = (p: Producto) =>
+  p.precioPlantaPromo !== undefined && promoVigente() ? p.precioPlantaPromo : p.precioPlanta;
+
+export const soles = (n: number) => `S/ ${n.toLocaleString('en-US')}`;
+
+// Los 4 productos con precio publicado
 export const productos: Producto[] = [
-  // ---------- MURO ----------
-  {
-    id: 'kk-h8',
-    nombre: 'King Kong H-8',
-    categoria: 'muro',
-    dimensiones: '8 × 13 × 22 cm',
-    peso: '2.2 kg',
-    rendimiento: '45 und/m²',
-    uso: 'Tabiquería liviana',
-    descripcion: 'Ladrillo liviano de 8 huecos, ideal para tabiques y divisiones que no cargan peso.',
-    accentColor: '#B8442A',
-    image: 'bg-gradient-to-br from-[#8A3320] via-[#B8442A] to-[#1A2B4A]',
-  },
-  {
-    id: 'kk-h9',
-    nombre: 'King Kong H-9',
-    categoria: 'muro',
-    dimensiones: '9 × 14 × 24 cm',
-    peso: '3.4 kg',
-    rendimiento: '37 und/m²',
-    uso: 'Muros',
-    descripcion: 'Formato intermedio de 9 huecos para muros de vivienda con buen rendimiento por m².',
-    accentColor: '#D4593A',
-    image: 'bg-gradient-to-br from-[#B8442A] via-[#D4593A] to-[#1A2B4A]',
-  },
   {
     id: 'kk-h10',
     nombre: 'King Kong H-10',
-    categoria: 'muro',
+    uso: 'Muro que carga peso',
+    descripcion: 'El clásico para los muros de tu casa. Resistente, para soportar la estructura.',
     dimensiones: '10 × 14 × 24 cm',
     peso: '3.7 kg',
-    rendimiento: '34 und/m²',
-    uso: 'Muro portante',
-    descripcion: 'El clásico para muro portante. Resistente, pensado para soportar la estructura de tu casa.',
-    accentColor: '#B8442A',
+    rendimiento: '34 por m²',
+    precioPlanta: 1100,
+    precioPlantaPromo: 1000,
+    precioObra: 1170,
     image: 'bg-gradient-to-br from-[#8A3320] via-[#B8442A] to-[#D4593A]',
   },
   {
     id: 'pandereta',
     nombre: 'Pandereta',
-    categoria: 'muro',
+    uso: 'Tabiques y cercos',
+    descripcion: 'Liviana y rápida de asentar, para divisiones y cercos que no cargan peso.',
     dimensiones: '10 × 14 × 22 cm',
     peso: '2.4 kg',
-    rendimiento: '37 und/m²',
-    uso: 'Tabiquería no portante',
-    descripcion: 'Ladrillo liviano para tabiques y cercos. Rápido de asentar y económico.',
-    accentColor: '#D4A24C',
+    rendimiento: '37 por m²',
+    precioPlanta: 1100,
+    precioPlantaPromo: 1000,
+    precioObra: 1150,
     image: 'bg-gradient-to-br from-[#1A2B4A] via-[#B8442A] to-[#D4A24C]',
   },
   {
-    id: 'bloqueta',
-    nombre: 'Bloqueta',
-    categoria: 'muro',
-    dimensiones: '12 × 17 × 28 cm',
-    peso: '4.6 kg',
-    rendimiento: '18 und/m²',
-    uso: 'Muros / cerco',
-    descripcion: 'Gran formato que cubre más por unidad. Ideal para cercos y muros que avanzan rápido.',
-    accentColor: '#1A2B4A',
-    image: 'bg-gradient-to-br from-[#070E1A] via-[#1A2B4A] to-[#B8442A]',
-  },
-
-  // ---------- TECHO ----------
-  {
     id: 'hueco-12',
     nombre: 'Hueco 12',
-    categoria: 'techo',
+    uso: 'Techo aligerado',
+    descripcion: 'Para losa aligerada de 12 cm. Aligera el peso del techo.',
     dimensiones: '12 × 30 × 30 cm',
     peso: '6.5 kg',
-    rendimiento: '9 und/m²',
-    uso: 'Aligerado de techo',
-    descripcion: 'Ladrillo de techo para losa aligerada de 12 cm. Aligera el peso y mejora el aislamiento.',
-    accentColor: '#D4593A',
+    rendimiento: '9 por m²',
+    precioPlanta: 2700,
+    precioObra: 3180,
     image: 'bg-gradient-to-br from-[#1A2B4A] via-[#8A3320] to-[#D4593A]',
   },
   {
     id: 'hueco-15',
     nombre: 'Hueco 15',
-    categoria: 'techo',
+    uso: 'Techo aligerado',
+    descripcion: 'Para losa aligerada de 15 cm, en techos con más luz entre apoyos.',
     dimensiones: '15 × 30 × 30 cm',
     peso: '7.0 kg',
-    rendimiento: '9 und/m²',
-    uso: 'Aligerado de techo',
-    descripcion: 'Para losas aligeradas de 15 cm, en techos con mayor luz entre apoyos.',
-    accentColor: '#B8442A',
+    rendimiento: '9 por m²',
+    precioPlanta: 2700,
+    precioObra: 3180,
     image: 'bg-gradient-to-br from-[#070E1A] via-[#B8442A] to-[#1A2B4A]',
   },
-  {
-    id: 'hueco-20',
-    nombre: 'Hueco 20',
-    categoria: 'techo',
-    dimensiones: '20 × 30 × 30 cm',
-    rendimiento: '9 und/m²',
-    uso: 'Aligerado de techo',
-    descripcion: 'El de mayor altura para losas de 20 cm, en techos que cubren grandes distancias.',
-    accentColor: '#D4A24C',
-    image: 'bg-gradient-to-br from-[#1A2B4A] via-[#D4A24C] to-[#8A3320]',
-  },
+];
 
-  // ---------- TEJAS ----------
-  {
-    id: 'teja-27',
-    nombre: 'Teja N°27',
-    categoria: 'tejas',
-    dimensiones: '27 cm',
-    uso: 'Cobertura / techo a dos aguas',
-    descripcion: 'Teja de arcilla de 27 cm para techos inclinados con buen acabado tradicional.',
-    accentColor: '#B8442A',
-    image: 'bg-gradient-to-br from-[#8A3320] via-[#B8442A] to-[#D4593A]',
-  },
-  {
-    id: 'teja-36',
-    nombre: 'Teja N°36',
-    categoria: 'tejas',
-    dimensiones: '36 cm',
-    uso: 'Cobertura / techo a dos aguas',
-    descripcion: 'Teja de 36 cm que cubre más superficie por pieza en techos a dos aguas.',
-    accentColor: '#D4593A',
-    image: 'bg-gradient-to-br from-[#B8442A] via-[#D4593A] to-[#1A2B4A]',
-  },
-  {
-    id: 'teja-40',
-    nombre: 'Teja N°40',
-    categoria: 'tejas',
-    dimensiones: '40 cm',
-    uso: 'Cobertura / techo a dos aguas',
-    descripcion: 'La teja de mayor formato, para coberturas amplias con menos piezas.',
-    accentColor: '#D4A24C',
-    image: 'bg-gradient-to-br from-[#1A2B4A] via-[#B8442A] to-[#D4A24C]',
-  },
-
-  // ---------- PISOS / PASTELERO ----------
-  {
-    id: 'pastelero-20',
-    nombre: 'Pastelero 20×20',
-    categoria: 'pisos',
-    dimensiones: '20 × 20 cm',
-    uso: 'Piso / acabado de azotea',
-    descripcion: 'Ladrillo pastelero para pisos y acabado de azoteas. Protege la losa y da terminación.',
-    accentColor: '#B8442A',
-    image: 'bg-gradient-to-br from-[#070E1A] via-[#1A2B4A] to-[#B8442A]',
-  },
-  {
-    id: 'pastelero-24',
-    nombre: 'Pastelero 24×24',
-    categoria: 'pisos',
-    dimensiones: '24 × 24 cm',
-    uso: 'Piso / acabado de azotea',
-    descripcion: 'Formato de 24 cm que cubre más por pieza en azoteas y patios.',
-    accentColor: '#D4593A',
-    image: 'bg-gradient-to-br from-[#1A2B4A] via-[#8A3320] to-[#D4593A]',
-  },
+// Más de nuestra fábrica: sin precio publicado, se consulta por WhatsApp
+export const otrosProductos = [
+  'Bloqueta',
+  'Hueco 20',
+  'King Kong H-8',
+  'King Kong H-9',
+  'Tejas N°27, 36 y 40',
+  'Pastelero 20×20 y 24×24',
 ];

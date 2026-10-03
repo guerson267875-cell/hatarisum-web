@@ -1,51 +1,61 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { CheckCircle2, ArrowRight } from 'lucide-react';
+import { CheckCircle2, ArrowRight, ArrowUpRight, MapPin } from 'lucide-react';
 import { CursorState } from '../types';
-
-// ⚠️ PENDIENTE: reemplazar por el número real de WhatsApp de Hatarisum.
-// Formato internacional sin "+" ni espacios (ej. Perú: 51 + 9 dígitos => "51957577494").
-const WHATSAPP_NUMERO = '51000000000';
+import { waLink, WHATSAPP_VISIBLE, MAPS_FABRICA, redes } from '../data/contacto';
 
 interface ContactProps {
   setCursorState: React.Dispatch<React.SetStateAction<CursorState>>;
 }
 
-const intereses = [
-  { key: 'junta', label: 'Armar una junta vecinal' },
-  { key: 'contratista', label: 'Soy contratista / obra' },
-  { key: 'cotizar', label: 'Solo cotizar' },
+const perfiles = [
+  { key: 'familia', label: 'Construyo mi casa' },
+  { key: 'maestro', label: 'Soy maestro de obra' },
+  { key: 'empresa', label: 'Inmobiliaria o contratista' },
+];
+
+const modalidades = [
+  { key: 'planta', label: 'Lo recojo en planta' },
+  { key: 'obra', label: 'Que me lo lleven' },
+  { key: 'nose', label: 'Todavía no sé' },
 ];
 
 export default function Contact({ setCursorState }: ContactProps) {
-  const [formData, setFormData] = useState({ nombre: '', telefono: '', mensaje: '', interes: 'junta' });
+  const [formData, setFormData] = useState({ nombre: '', perfil: 'familia', modalidad: 'nose', mensaje: '' });
   const [enviado, setEnviado] = useState(false);
 
   const hover = (entering: boolean) => setCursorState({ type: entering ? 'hover' : 'default' });
 
+  // El teléfono no se pide: llega solo con el chat de WhatsApp
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.nombre || !formData.telefono) return;
+    if (!formData.nombre.trim()) return;
 
-    const interesLabel = intereses.find((i) => i.key === formData.interes)?.label ?? '';
+    const perfil = perfiles.find((i) => i.key === formData.perfil)?.label ?? '';
+    const modalidad = modalidades.find((i) => i.key === formData.modalidad)?.label ?? '';
     const texto =
       `Hola Hatarisum 👋\n` +
-      `Soy ${formData.nombre}.\n` +
-      `Me interesa: ${interesLabel}.\n` +
-      `Mi teléfono: ${formData.telefono}.\n` +
-      (formData.mensaje ? `${formData.mensaje}` : '');
+      `Soy ${formData.nombre.trim()}. ${perfil}.\n` +
+      `${modalidad}.\n` +
+      (formData.mensaje.trim() ? formData.mensaje.trim() : 'Quiero cotizar ladrillo.');
 
-    const url = `https://wa.me/${WHATSAPP_NUMERO}?text=${encodeURIComponent(texto)}`;
-    window.open(url, '_blank', 'noopener,noreferrer');
+    window.open(waLink(texto), '_blank', 'noopener,noreferrer');
     setEnviado(true);
   };
+
+  const chip = (activo: boolean) =>
+    `px-3 py-2.5 rounded-lg font-mono text-[10px] tracking-wider uppercase transition-all border cursor-none text-center ${
+      activo
+        ? 'bg-[#B8442A]/25 border-[#B8442A] text-white'
+        : 'bg-[#070E1A] border-white/5 text-zinc-400 hover:text-white hover:border-white/10'
+    }`;
 
   return (
     <section
       id="contact"
-      className="relative min-h-screen py-24 px-6 md:px-12 max-w-7xl mx-auto border-t border-white/[0.04] select-none"
+      className="relative py-24 px-6 md:px-12 max-w-7xl mx-auto border-t border-white/[0.04] select-none"
     >
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
 
         {/* COLUMNA IZQUIERDA — TEXTO Y CANALES */}
         <div className="lg:col-span-5 space-y-8">
@@ -54,57 +64,59 @@ export default function Contact({ setCursorState }: ContactProps) {
               HABLEMOS
             </p>
             <h2 className="text-3xl md:text-5xl font-display font-extrabold text-hueso tracking-tight">
-              Arma tu junta o pide tu cotización
+              Cotiza por WhatsApp
             </h2>
             <p className="text-zinc-300 text-sm font-light leading-relaxed mt-4 max-w-md">
-              Cuéntanos qué necesitas y te respondemos por WhatsApp. Seas una familia organizando tu
-              cuadra o un contratista pidiendo para tu obra, conversemos.
+              Cuéntanos qué vas a construir y te respondemos por WhatsApp con el precio de lo que
+              necesitas, en planta o puesto en tu obra.
             </p>
           </div>
 
           {/* Canales */}
-          <div className="border-t border-white/[0.05] pt-8 space-y-6">
-            <span className="font-mono text-[9px] tracking-[0.2em] text-zinc-500 uppercase block">
-              Nuestros canales
-            </span>
+          <div className="border-t border-white/[0.05] pt-8 space-y-4">
+            <a
+              href={waLink('Hola Hatarisum, quiero cotizar ladrillo.')}
+              target="_blank"
+              rel="noopener noreferrer"
+              onMouseEnter={() => hover(true)}
+              onMouseLeave={() => hover(false)}
+              className="group cursor-none flex items-center justify-between border border-[#B8442A]/30 bg-[#B8442A]/10 p-4 rounded-xl hover:bg-[#B8442A]/20 transition-all"
+            >
+              <span>
+                <span className="font-mono text-[9px] tracking-widest text-[#D4A24C] block uppercase mb-1">WhatsApp</span>
+                <span className="text-base font-display font-bold text-hueso group-hover:text-white transition-colors">{WHATSAPP_VISIBLE}</span>
+              </span>
+              <ArrowUpRight className="h-5 w-5 text-[#D4A24C]" />
+            </a>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-3">
+              {redes.map((r) => (
+                <a
+                  key={r.red}
+                  href={r.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onMouseEnter={() => hover(true)}
+                  onMouseLeave={() => hover(false)}
+                  className="group cursor-none border border-white/[0.06] bg-[#0B1426]/80 backdrop-blur-sm p-4 rounded-xl hover:border-white/15 transition-all text-left"
+                >
+                  <span className="font-mono text-[9px] tracking-widest text-zinc-500 block uppercase mb-1">{r.red}</span>
+                  <span className="text-xs font-mono text-zinc-300 group-hover:text-white transition-colors break-all">{r.usuario}</span>
+                </a>
+              ))}
               <a
-                href={`https://wa.me/${WHATSAPP_NUMERO}`}
+                href={MAPS_FABRICA}
                 target="_blank"
                 rel="noopener noreferrer"
                 onMouseEnter={() => hover(true)}
                 onMouseLeave={() => hover(false)}
-                className="group cursor-none border border-[#B8442A]/30 bg-[#B8442A]/10 p-4 rounded-xl hover:bg-[#B8442A]/20 transition-all text-left"
+                className="group cursor-none border border-white/[0.06] bg-[#0B1426]/80 backdrop-blur-sm p-4 rounded-xl hover:border-white/15 transition-all text-left"
               >
-                <span className="font-mono text-[8px] text-[#D4A24C] block uppercase mb-1">WhatsApp</span>
-                <span className="text-xs font-mono text-hueso group-hover:text-white transition-colors">Escríbenos →</span>
+                <span className="font-mono text-[9px] tracking-widest text-zinc-500 block uppercase mb-1">Fábrica</span>
+                <span className="text-xs font-mono text-zinc-300 group-hover:text-white transition-colors inline-flex items-center gap-1">
+                  <MapPin className="h-3.5 w-3.5 text-[#D4593A]" /> Ver mapa
+                </span>
               </a>
-
-              <a
-                href="#instagram"
-                onMouseEnter={() => hover(true)}
-                onMouseLeave={() => hover(false)}
-                className="group cursor-none border border-white/[0.04] bg-white/[0.01] p-4 rounded-xl hover:bg-white/[0.03] hover:border-white/10 transition-all text-left"
-              >
-                <span className="font-mono text-[8px] text-zinc-500 block uppercase mb-1">Instagram</span>
-                <span className="text-xs font-mono text-zinc-300 group-hover:text-white transition-colors">@hatarisum</span>
-              </a>
-
-              <a
-                href="#facebook"
-                onMouseEnter={() => hover(true)}
-                onMouseLeave={() => hover(false)}
-                className="group cursor-none border border-white/[0.04] bg-white/[0.01] p-4 rounded-xl hover:bg-white/[0.03] hover:border-white/10 transition-all text-left"
-              >
-                <span className="font-mono text-[8px] text-zinc-500 block uppercase mb-1">Facebook</span>
-                <span className="text-xs font-mono text-zinc-300 group-hover:text-white transition-colors">Hatarisum</span>
-              </a>
-
-              <div className="border border-white/[0.04] bg-white/[0.01] p-4 rounded-xl text-left">
-                <span className="font-mono text-[8px] text-zinc-500 block uppercase mb-1">Zona</span>
-                <span className="text-xs font-mono text-zinc-300">Arequipa, Perú</span>
-              </div>
             </div>
           </div>
         </div>
@@ -123,53 +135,57 @@ export default function Contact({ setCursorState }: ContactProps) {
               >
                 {/* NOMBRE */}
                 <div>
-                  <label className="font-mono text-[9px] tracking-widest text-zinc-500 uppercase block mb-2">
+                  <label htmlFor="cf-nombre" className="font-mono text-[9px] tracking-widest text-zinc-500 uppercase block mb-2">
                     ¿Cómo te llamas?
                   </label>
                   <input
+                    id="cf-nombre"
                     type="text"
                     required
+                    autoComplete="given-name"
                     value={formData.nombre}
                     onChange={(e) => setFormData({ ...formData, nombre: e.target.value })}
-                    className="w-full bg-[#070E1A] border border-white/5 rounded-lg px-4 py-3 text-sm font-sans text-hueso focus:outline-none focus:border-[#D4A24C] focus:ring-1 focus:ring-[#D4A24C]/20 transition-all cursor-none"
+                    className="w-full bg-[#070E1A] border border-white/5 rounded-lg px-4 py-3 text-base md:text-sm font-sans text-hueso focus:outline-none focus:border-[#D4A24C] focus:ring-1 focus:ring-[#D4A24C]/20 transition-all cursor-none"
                     onMouseEnter={() => hover(true)}
                     onMouseLeave={() => hover(false)}
                   />
                 </div>
 
-                {/* TELÉFONO */}
+                {/* PERFIL */}
                 <div>
-                  <label className="font-mono text-[9px] tracking-widest text-zinc-500 uppercase block mb-2">
-                    Tu número de WhatsApp
-                  </label>
-                  <input
-                    type="tel"
-                    required
-                    placeholder="9XX XXX XXX"
-                    value={formData.telefono}
-                    onChange={(e) => setFormData({ ...formData, telefono: e.target.value })}
-                    className="w-full bg-[#070E1A] border border-white/5 rounded-lg px-4 py-3 text-sm font-sans text-hueso placeholder:text-zinc-600 focus:outline-none focus:border-[#D4A24C] focus:ring-1 focus:ring-[#D4A24C]/20 transition-all cursor-none"
-                    onMouseEnter={() => hover(true)}
-                    onMouseLeave={() => hover(false)}
-                  />
-                </div>
-
-                {/* TIPO DE INTERÉS */}
-                <div>
-                  <label className="font-mono text-[9px] tracking-widest text-zinc-500 uppercase block mb-2">
-                    ¿Qué necesitas?
-                  </label>
+                  <span className="font-mono text-[9px] tracking-widest text-zinc-500 uppercase block mb-2">
+                    ¿Quién eres?
+                  </span>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                    {intereses.map((item) => (
+                    {perfiles.map((item) => (
                       <button
                         key={item.key}
                         type="button"
-                        onClick={() => setFormData({ ...formData, interes: item.key })}
-                        className={`px-3 py-2.5 rounded-lg font-mono text-[9px] tracking-wider uppercase transition-all border cursor-none text-center ${
-                          formData.interes === item.key
-                            ? 'bg-[#B8442A]/25 border-[#B8442A] text-white'
-                            : 'bg-[#070E1A] border-white/5 text-zinc-400 hover:text-white hover:border-white/10'
-                        }`}
+                        aria-pressed={formData.perfil === item.key}
+                        onClick={() => setFormData({ ...formData, perfil: item.key })}
+                        className={chip(formData.perfil === item.key)}
+                        onMouseEnter={() => hover(true)}
+                        onMouseLeave={() => hover(false)}
+                      >
+                        {item.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* MODALIDAD */}
+                <div>
+                  <span className="font-mono text-[9px] tracking-widest text-zinc-500 uppercase block mb-2">
+                    ¿Cómo lo quieres?
+                  </span>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                    {modalidades.map((item) => (
+                      <button
+                        key={item.key}
+                        type="button"
+                        aria-pressed={formData.modalidad === item.key}
+                        onClick={() => setFormData({ ...formData, modalidad: item.key })}
+                        className={chip(formData.modalidad === item.key)}
                         onMouseEnter={() => hover(true)}
                         onMouseLeave={() => hover(false)}
                       >
@@ -181,15 +197,16 @@ export default function Contact({ setCursorState }: ContactProps) {
 
                 {/* MENSAJE */}
                 <div>
-                  <label className="font-mono text-[9px] tracking-widest text-zinc-500 uppercase block mb-2">
-                    Cuéntanos un poco más (opcional)
+                  <label htmlFor="cf-mensaje" className="font-mono text-[9px] tracking-widest text-zinc-500 uppercase block mb-2">
+                    ¿Qué vas a construir? (opcional)
                   </label>
                   <textarea
+                    id="cf-mensaje"
                     rows={4}
-                    placeholder="Ej. Somos 8 vecinos en Alto Selva Alegre, queremos King Kong para muro."
+                    placeholder="Ej. Voy a levantar un cuarto en Cerro Colorado, necesito King Kong."
                     value={formData.mensaje}
                     onChange={(e) => setFormData({ ...formData, mensaje: e.target.value })}
-                    className="w-full bg-[#070E1A] border border-white/5 rounded-lg px-4 py-3 text-sm font-sans text-hueso placeholder:text-zinc-600 focus:outline-none focus:border-[#D4A24C] focus:ring-1 focus:ring-[#D4A24C]/20 transition-all resize-none cursor-none"
+                    className="w-full bg-[#070E1A] border border-white/5 rounded-lg px-4 py-3 text-base md:text-sm font-sans text-hueso placeholder:text-zinc-600 focus:outline-none focus:border-[#D4A24C] focus:ring-1 focus:ring-[#D4A24C]/20 transition-all resize-none cursor-none"
                     onMouseEnter={() => hover(true)}
                     onMouseLeave={() => hover(false)}
                   />
@@ -222,8 +239,8 @@ export default function Contact({ setCursorState }: ContactProps) {
                     ¡Listo! Abrimos tu WhatsApp
                   </h3>
                   <p className="text-zinc-400 text-sm font-light max-w-md mx-auto leading-relaxed">
-                    Te llevamos a la conversación con tu mensaje ya escrito. Solo dale enviar y
-                    conversamos. Si no se abrió, escríbenos directo por WhatsApp.
+                    Tu mensaje ya está escrito: solo dale enviar. Si no se abrió, escríbenos al{' '}
+                    {WHATSAPP_VISIBLE}.
                   </p>
                 </div>
 

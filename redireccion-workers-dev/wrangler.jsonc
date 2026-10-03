@@ -1,0 +1,6 @@
+{
+  // Redirección de la dirección vieja (workers.dev) a la web en Pages
+  "name": "hatarisum",
+  "main": "./index.js",
+  "compatibility_date": "2026-10-01"
+}

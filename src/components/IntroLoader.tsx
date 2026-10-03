@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 
 interface IntroLoaderProps {
@@ -8,6 +8,13 @@ interface IntroLoaderProps {
 export default function IntroLoader({ onComplete }: IntroLoaderProps) {
   const [stage, setStage] = useState<'fade-in' | 'fade-out' | 'done'>('fade-in');
 
+  // El padre pasa una función nueva en cada render (cada hover cambia el cursor y
+  // re-renderiza App). Si el efecto dependiera de ella, reiniciaría los timers y la
+  // intro volvería a aparecer ~2 s después: parecía que la página se recargaba.
+  const onCompleteRef = useRef(onComplete);
+  onCompleteRef.current = onComplete;
+
+  // La intro corre una sola vez, al abrir la página
   useEffect(() => {
     // Etapa 1: aparece y pulsa el tagline
     const fadeOutTimer = setTimeout(() => {
@@ -17,14 +24,14 @@ export default function IntroLoader({ onComplete }: IntroLoaderProps) {
     // Etapa 2: completa el loader y libera el contenido
     const completeTimer = setTimeout(() => {
       setStage('done');
-      onComplete();
+      onCompleteRef.current();
     }, 2900);
 
     return () => {
       clearTimeout(fadeOutTimer);
       clearTimeout(completeTimer);
     };
-  }, [onComplete]);
+  }, []);
 
   if (stage === 'done') return null;
 

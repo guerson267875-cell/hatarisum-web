@@ -5,11 +5,12 @@ export interface Producto {
   uso: string;               // uso típico, ej. "Muro que carga peso"
   descripcion: string;       // 1 frase para la ficha
   dimensiones: string;       // ej. "10 × 14 × 24 cm"
-  peso: string;              // ej. "3.7 kg"
+  peso: string;              // ej. "3.3 kg"
   rendimiento: string;       // ej. "34 por m² de muro"
   precioPlanta: number;      // precio de lista en planta
   precioPlantaPromo?: number; // precio de la promo de apertura (solo en planta)
   precioObra: number;        // puesto en obra, Arequipa (ya incluye llevarlo)
+  ficha: string;             // PDF de su ficha técnica, en public/fichas/
   image: string;             // clases tailwind del gradiente de la card
 }
 

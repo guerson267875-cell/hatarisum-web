@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { ArrowUpRight, Calculator } from 'lucide-react';
+import { ArrowUpRight, Calculator, FileText } from 'lucide-react';
 import { CursorState } from '../types';
 import { productos, otrosProductos, precioEnPlanta, promoVigente, soles } from '../data/productos';
 import { waLink } from '../data/contacto';
@@ -141,6 +141,18 @@ export default function Precios({ setCursorState }: PreciosProps) {
                   </div>
                 </dl>
 
+                <a
+                  href={`./fichas/${p.ficha}`}
+                  target="_blank"
+                  rel="noopener"
+                  onMouseEnter={() => handleHover(true, 'PDF')}
+                  onMouseLeave={() => handleHover(false)}
+                  className="mb-3 inline-flex items-center gap-1.5 text-[10px] font-mono tracking-widest uppercase text-zinc-400 hover:text-hueso transition-colors cursor-none"
+                >
+                  <FileText className="h-3.5 w-3.5" />
+                  <span>Ficha técnica (PDF)</span>
+                </a>
+
                 {/* CTA */}
                 <a
                   href={waLink(`Hola Hatarisum, quiero cotizar ${p.nombre}.`)}
@@ -164,6 +176,7 @@ export default function Precios({ setCursorState }: PreciosProps) {
         Precios por millar (1,000 ladrillos), en soles.
         {promo && ' La promo de S/ 1 el ladrillo es solo en planta, desde 1 millar, hasta el 31 de octubre de 2026.'}
         {' '}El stock, la cobertura de tu zona y el día de carga o de entrega los confirma un asesor por WhatsApp.
+        {' '}<a href="./fichas/Fichas-Tecnicas-Hatarisum.pdf" target="_blank" rel="noopener" className="text-[#D4A24C] hover:text-hueso underline underline-offset-2 cursor-none">Descarga el catálogo técnico completo (PDF)</a>.
       </p>
 
       {/* ¿CUÁNTO NECESITO? + OTROS PRODUCTOS */}

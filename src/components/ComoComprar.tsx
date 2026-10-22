@@ -73,7 +73,7 @@ export default function ComoComprar({ setCursorState }: ComoComprarProps) {
       items: [
         'Precio de fábrica, sin intermediarios',
         'Entregas programadas según su cronograma',
-        'Comprobante y ficha técnica: los coordina un asesor',
+        'Ficha técnica en PDF de cada producto; el comprobante lo coordina un asesor',
         'King Kong, Pandereta, Hueco 12 y Hueco 15',
       ],
     },

@@ -2,9 +2,9 @@ import { Producto } from '../types';
 
 // ============================================================
 // PRECIOS — único punto de verdad de la web.
-// Fuente: HATARISUM_Marketing_y_Distribucion/04_Conversion_y_Cierre/
-//   agente-whatsapp/configuracion-workspace-v4-planta-y-obra.md
-// (decisión de Guerson, 02/10/2026). Si cambian allá, cambiar aquí.
+// Fuente de precios: agente-whatsapp/configuracion-workspace-v7-saas.md (Hueco 12/15 a S/ 2,900
+// en planta desde el 12/10/2026). Fuente de medidas, peso y rendimiento: las fichas técnicas
+// Rev. 03 (03_Contenido_y_Creatividad/fichas-tecnicas/). Si cambian allá, cambiar aquí.
 //
 // Precio por millar (1,000 ladrillos), en soles.
 // ============================================================
@@ -25,13 +25,14 @@ export const productos: Producto[] = [
     id: 'kk-h10',
     nombre: 'King Kong H-10',
     uso: 'Muro que carga peso',
-    descripcion: 'El clásico para los muros de tu casa. Resistente, para soportar la estructura.',
+    descripcion: 'El clásico para los muros de tu casa. Clase IV, para muros que cargan peso.',
     dimensiones: '10 × 14 × 24 cm',
-    peso: '3.7 kg',
+    peso: '3.3 kg',
     rendimiento: '34 por m²',
     precioPlanta: 1100,
     precioPlantaPromo: 1000,
     precioObra: 1170,
+    ficha: 'Ficha-Tecnica-King-Kong-H10.pdf',
     image: 'bg-gradient-to-br from-[#8A3320] via-[#B8442A] to-[#D4593A]',
   },
   {
@@ -45,30 +46,33 @@ export const productos: Producto[] = [
     precioPlanta: 1100,
     precioPlantaPromo: 1000,
     precioObra: 1150,
+    ficha: 'Ficha-Tecnica-Pandereta.pdf',
     image: 'bg-gradient-to-br from-[#1A2B4A] via-[#B8442A] to-[#D4A24C]',
   },
   {
     id: 'hueco-12',
     nombre: 'Hueco 12',
     uso: 'Techo aligerado',
-    descripcion: 'Para losa aligerada de 12 cm. Aligera el peso del techo.',
+    descripcion: 'Para techo aligerado de 17 cm de espesor. Aligera el peso del techo.',
     dimensiones: '12 × 30 × 30 cm',
     peso: '6.5 kg',
     rendimiento: '9 por m²',
-    precioPlanta: 2700,
+    precioPlanta: 2900,
     precioObra: 3180,
+    ficha: 'Ficha-Tecnica-Hueco-12.pdf',
     image: 'bg-gradient-to-br from-[#1A2B4A] via-[#8A3320] to-[#D4593A]',
   },
   {
     id: 'hueco-15',
     nombre: 'Hueco 15',
     uso: 'Techo aligerado',
-    descripcion: 'Para losa aligerada de 15 cm, en techos con más luz entre apoyos.',
+    descripcion: 'Para techo aligerado de 20 cm de espesor, en techos con más luz entre apoyos.',
     dimensiones: '15 × 30 × 30 cm',
     peso: '7.0 kg',
     rendimiento: '9 por m²',
-    precioPlanta: 2700,
+    precioPlanta: 2900,
     precioObra: 3180,
+    ficha: 'Ficha-Tecnica-Hueco-15.pdf',
     image: 'bg-gradient-to-br from-[#070E1A] via-[#B8442A] to-[#1A2B4A]',
   },
 ];
@@ -76,9 +80,10 @@ export const productos: Producto[] = [
 // Más de nuestra fábrica: sin precio publicado, se consulta por WhatsApp
 export const otrosProductos = [
   'Bloqueta',
-  'Hueco 20',
+  'Hueco 20 (a pedido)',
   'King Kong H-8',
   'King Kong H-9',
+  'King Kong Infes',
   'Tejas N°27, 36 y 40',
   'Pastelero 20×20 y 24×24',
 ];

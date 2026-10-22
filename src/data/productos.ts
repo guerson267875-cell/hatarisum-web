@@ -19,6 +19,16 @@ export const precioEnPlanta = (p: Producto) =>
 
 export const soles = (n: number) => `S/ ${n.toLocaleString('en-US')}`;
 
+// Precio en planta en palabras, para textos que se leen fuera de la web (preguntas frecuentes,
+// llms.txt). Mientras dure la promo dice también cuánto cuesta desde el 1/11.
+export const precioPlantaTexto = (p: Producto, hoy: Date = new Date()) =>
+  p.precioPlantaPromo !== undefined && promoVigente(hoy)
+    ? `${soles(p.precioPlantaPromo)} (promoción hasta el 31/10/2026; desde el 1/11, ${soles(p.precioPlanta)})`
+    : soles(p.precioPlanta);
+
+// Fecha de la última revisión de precios. Cambiarla cada vez que se toquen los precios.
+export const PRECIOS_REVISADOS = '22/10/2026';
+
 // Los 4 productos con precio publicado
 export const productos: Producto[] = [
   {

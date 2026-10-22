@@ -9,6 +9,7 @@ import Hero from './components/Hero';
 import Precios from './components/Precios';
 import ComoComprar from './components/ComoComprar';
 import Fabrica from './components/Fabrica';
+import PreguntasFrecuentes from './components/PreguntasFrecuentes';
 import Contact from './components/Contact';
 import Wordmark from './components/Wordmark';
 import IntroLoader from './components/IntroLoader';
@@ -54,6 +55,9 @@ export default function App() {
 
         {/* NUESTRA FÁBRICA (una sola casa) */}
         <Fabrica setCursorState={setCursorState} />
+
+        {/* PREGUNTAS FRECUENTES (también las leen buscadores e IA) */}
+        <PreguntasFrecuentes setCursorState={setCursorState} />
 
         {/* CONTACTO */}
         <Contact setCursorState={setCursorState} />
